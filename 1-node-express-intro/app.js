@@ -1,29 +1,7 @@
-const { readFile, writeFile } = require('fs')
+const {createReadStream } = require('fs')
 
-readFile('./content/first.txt', 'utf-8', (err, result) => {
- if (err) {
-  console.log(err)
-  return
- }
- const first = result
+const stream = createReadStream('./content/big.txt')
 
- readFile('./content/subfolder/second.txt', 'utf-8', (err, result) => {
-  if (err) {
-   console.log(err)
-   return
-  }
-  const second = result
-  writeFile(
-   './content/result-async.txt',
-   `Here is the result: ${first}, ${second}`,
-   { flag: 'a' },
-   (err, result) => {
-    if (err) {
-     console.log(err)
-     return
-    }
-    console.log(result)
-   }
-  )
- })
+stream.on('data', (result )=>{
+ console.log(result)
 })
